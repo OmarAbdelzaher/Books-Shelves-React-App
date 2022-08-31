@@ -55,27 +55,19 @@ export default function BookShelf() {
         if(shelf !== "none"){
             if(shelf === "currentlyReading"){
                 filterShelves(book.key)
-                setCurrentlyReading([...currentlyReading, book])
-                // setWantToRead([...wantToRead])
-                // setRead([...read])
+                setCurrentlyReading([...currentlyReading.filter((b) => b.key !== book.key), book])
             }
             if(shelf === "wantToRead"){
                 filterShelves(book.key)
-                // setCurrentlyReading([...currentlyReading])
-                setWantToRead([...wantToRead, book])
-                // setRead([...read])
+                setWantToRead([...wantToRead.filter((b) => b.key !== book.key), book])
             }
             if(shelf === "read"){
                 filterShelves(book.key)
-                // setCurrentlyReading([...currentlyReading])
-                // setWantToRead([...wantToRead])
-                setRead([...read, book])
+                setRead([...read.filter((b) => b.key !== book.key), book])
             }
         }
         else{
-            setCurrentlyReading(currentlyReading.filter(b => b.key !== book.key));
-            setWantToRead(wantToRead.filter(b => b.key !== book.key));
-            setRead(read.filter(b => b.key !== book.key));
+            filterShelves(book.key)
         }
     }
 
