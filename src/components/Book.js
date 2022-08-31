@@ -5,7 +5,7 @@ import "./Book.css"
 
 export default function Book(props) {    
     return (
-        <div className='card' >
+        <div className='card'>
         <div className='card-img-top'>
             <Link to={`/book/${ props.book.key.split("/")[2] }`}>
                 <img src={ props.book.cover_i ? `https://covers.openlibrary.org/b/id/${props.book.cover_i}.jpg` : "https://dl.acm.org/specs/products/acm/releasedAssets/images/cover-default--book.svg"} alt={props.book.title} className="book-cover"/>    

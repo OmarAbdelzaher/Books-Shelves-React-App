@@ -10,9 +10,9 @@ import Alert from 'react-bootstrap/Alert';
 import { useRef } from 'react';
 
 export default function BookShelf() {
-    const [currentlyReading, setCurrentlyReading] = useState([]);
-    const [wantToRead, setWantToRead] = useState([]);
-    const [read, setRead] = useState([]);
+    const [currentlyReading, setCurrentlyReading] = useState(JSON.parse(localStorage.getItem('currentlyReading')));
+    const [wantToRead, setWantToRead] = useState(JSON.parse(localStorage.getItem('wantToRead')));
+    const [read, setRead] = useState(JSON.parse(localStorage.getItem('read')));
     
     const [show, setShow] = useState(false);
     
@@ -35,15 +35,15 @@ export default function BookShelf() {
             showModal();
         })
     }
+    
+    // Local Storage
 
-    // useEffect(() => {
-    //     const books = JSON.parse(localStorage.getItem("books"));
-    //     if(books){
-    //         setCurrentlyReading(books.currentlyReading);
-    //         setWantToRead(books.wantToRead);
-    //         setRead(books.read);
-    //     }
-    // })
+    useEffect(() => {
+        localStorage.setItem('currentlyReading', JSON.stringify(currentlyReading));
+        localStorage.setItem('wantToRead', JSON.stringify(wantToRead));
+        localStorage.setItem('read', JSON.stringify(read));
+    }, [currentlyReading, wantToRead, read])
+
 
     function filterShelves(bookId){
         setCurrentlyReading(currentlyReading.filter((book) => book.key !== bookId))
