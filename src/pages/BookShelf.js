@@ -45,65 +45,37 @@ export default function BookShelf() {
     //     }
     // })
 
-    useEffect(() => {
-        console.log("currentlyReading", currentlyReading);
-        console.log("wantToRead", wantToRead);
-        console.log("read", read);
-    }, [currentlyReading, wantToRead, read])
-    
+    function filterShelves(bookId){
+        setCurrentlyReading(currentlyReading.filter((book) => book.key !== bookId))
+        setWantToRead(wantToRead.filter((book) => book.key !== bookId))
+        setRead(read.filter((book) => book.key !== bookId))
+    }
+
     function updateBookShelf(book, shelf){
         if(shelf !== "none"){
-            fetch(`https://openlibrary.org${book}.json`)
-                .then(res => res.json())
-                .then(book => {
-
-                    let originalBook = {...book}
-
-                    // originalBook.author_name = book.authors[0]
-                    originalBook.cover_i = book.covers ? book.covers[0] : ""
-
-                    let currently_reading = currentlyReading.filter(b => b.key !== book.key)
-                    // console.log("currently_reading", currently_reading);
-
-                    let want_to_read = wantToRead.filter(b => b.key !== book.key);
-                    // console.log("want_to_read", want_to_read);
-                    
-                    let read_book = read.filter(b => b.key !== book.key);
-                    // console.log("read_book", read_book);
-                    
-                    // setCurrentlyReading(currently_reading);
-                    // setWantToRead(want_to_read);
-                    // setRead(read_book);
-
-                    switch(shelf){
-                        case "currentlyReading":
-                            setCurrentlyReading([...currently_reading, originalBook]);
-                            setWantToRead(want_to_read);
-                            setRead(read_book);
-                            break;
-                        case "wantToRead":
-                            setCurrentlyReading(currently_reading);
-                            setWantToRead([...want_to_read, originalBook]);
-                            setRead(read_book);
-                            break;
-                        case "read":
-                            setCurrentlyReading(currently_reading);
-                            setWantToRead(want_to_read);
-                            setRead([...read_book, originalBook]);
-                            break;
-                        default:
-                            break;
-                    }
-                })
+            if(shelf === "currentlyReading"){
+                filterShelves(book.key)
+                setCurrentlyReading([...currentlyReading, book])
+                // setWantToRead([...wantToRead])
+                // setRead([...read])
+            }
+            if(shelf === "wantToRead"){
+                filterShelves(book.key)
+                // setCurrentlyReading([...currentlyReading])
+                setWantToRead([...wantToRead, book])
+                // setRead([...read])
+            }
+            if(shelf === "read"){
+                filterShelves(book.key)
+                // setCurrentlyReading([...currentlyReading])
+                // setWantToRead([...wantToRead])
+                setRead([...read, book])
+            }
         }
         else{
-            let currently_reading = currentlyReading.filter(b => b.key !== book);
-            let want_to_read = wantToRead.filter(b => b.key !== book);
-            let read_book = read.filter(b => b.key !== book);
-
-            setCurrentlyReading(currently_reading);
-            setWantToRead(want_to_read);
-            setRead(read_book);
+            setCurrentlyReading(currentlyReading.filter(b => b.key !== book.key));
+            setWantToRead(wantToRead.filter(b => b.key !== book.key));
+            setRead(read.filter(b => b.key !== book.key));
         }
     }
 

@@ -6,6 +6,7 @@ import React from 'react'
 import { useRef } from "react"
 
 export default function DropDown({handleUpdate, bookId}) {
+    
     const myDropDown = useRef(null);
 
     function handleMenuClick() {
@@ -14,8 +15,6 @@ export default function DropDown({handleUpdate, bookId}) {
 
     function handleSelection(target){
         myDropDown.current.classList.remove("show");
-        
-        let bookId = target.parentNode.getAttribute("data-bookid")
         
         if(target.innerText === "Currently Reading"){
             handleUpdate(bookId, "currentlyReading");
@@ -50,7 +49,7 @@ export default function DropDown({handleUpdate, bookId}) {
             <div className="dropbtn" onClick={(e) => handleMenuClick(e.target)}>
                 <FontAwesomeIcon icon={faCaretDown} className="caret-down"/>
             </div>
-            <div id="myDropdown" className="dropdown-content" ref={myDropDown} data-bookid={bookId}>
+            <div id="myDropdown" className="dropdown-content" ref={myDropDown}>
                 {
                     ["Currently Reading", "Want to Read", "Read", "None"].map((item,index) => {
                         return (
